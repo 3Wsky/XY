@@ -6,52 +6,58 @@ from loguru import logger
 from plugin_interface import PluginInterface
 
 
-class news(PluginInterface):
+class News(PluginInterface):
     def __init__(self):
         config_path = 'plugins/news.yml'
-        with open(config_path, 'r', encoding='utf-8') as f:  # 读取设置
+        with open(config_path, 'r', encoding='utf-8') as f:
             config = yaml.safe_load(f.read())
 
-        self.news_urls = config['news_urls']  # 新闻url列表
-        self.news_number = config['news_number']  # 要获取的新闻数量
+        self.api_url = config['api_url']
+        self.response_format = config['response_format']
+        self.api_key = config['api_key']
 
         main_config_path = 'main_config.yml'
-        with open(main_config_path, 'r', encoding='utf-8') as f:  # 读取设置
+        with open(main_config_path, 'r', encoding='utf-8') as f:
             main_config = yaml.safe_load(f.read())
 
-        self.ip = main_config['ip']  # 机器人ip
-        self.port = main_config['port']  # 机器人端口
-        self.bot = pywxdll.Pywxdll(self.ip, self.port)  # 机器人api
+        self.ip = main_config['ip']
+        self.port = main_config['port']
+        self.bot = pywxdll.Pywxdll(self.ip, self.port)
 
     async def run(self, recv):
         try:
-            res = []
-            conn_ssl = aiohttp.TCPConnector(verify_ssl=False)
-            for link in self.news_urls:  # 从设置中获取链接列表
-                async with aiohttp.request('GET', url=link, connector=conn_ssl) as req:
-                    res.append(await req.json())
-            await conn_ssl.close()
+            imageurl = 'https://example.com/image.jpg'  # 替换为实际的图片 URL
+            datetime = '2024-03-05'  # 替换为实际的日期时间
+            text = 'This is a news article.'  # 替换为实际的新闻文本
 
-            out_message = '-----XYBot新闻-----\n'
-            for j in res:  # 从新闻列表for
-                for i in range(self.news_number):  # 从设置中获取单类新闻个数
-                    # 获取新闻的信息
-                    dict_key = list(j.keys())
-                    news_title = j[dict_key[0]][i].get('title', '❓未知❓')
-                    news_type = j[dict_key[0]][i].get('tname', '❓未知❓')
-                    news_source = j[dict_key[0]][i].get('source', '无😔')
-                    news_description = j[dict_key[0]][i].get('digest', '无😔')
-                    news_url = j[dict_key[0]][i].get('url', '无😔')
+            params = {
+                'imageurl': imageurl,
+                'datetime': datetime,
+                'text': text
+            }
 
-                    news_output = '{title}\n类型：{type}\n来源：{source}\n{description}...\n链接🔗：{url}\n----------\n'.format(
-                        title=news_title, type=news_type, source=news_source, description=news_description,
-                        url=news_url)  # 创建信息
-                    out_message += news_output  # 加入最后输出字符串
+            headers = {
+                'Authorization': self.api_key
+            }
 
-            logger.info('[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
-            self.bot.send_txt_msg(recv['wxid'], out_message)  # 发送
+            async with aiohttp.ClientSession() as session:
+                async with session.get(self.api_url, params=params, headers=headers) as response:
+                    if response.status == 200:
+                        if self.response_format == 'json':
+                            json_data = await response.json()
+                            # 处理返回的 JSON 数据
+                            # ...
+                        else:
+                            # 处理其他返回格式的数据
+                            # ...
+                    else:
+                        logger.error('Request failed with status code: {status_code}', status_code=response.status)
 
-        except Exception as error:  # 错误处理
+            out_message = '处理返回的数据，生成消息内容'
+            logger.info('[发送信息]{out_message}| [发送到] {wxid}', out_message=out_message, wxid=recv['wxid'])
+            self.bot.send_txt_msg(recv['wxid'], out_message)
+
+        except Exception as error:
             out_message = '出现错误！⚠️{error}'.format(error=error)
             logger.info('[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
             self.bot.send_txt_msg(recv['wxid'], out_message)
