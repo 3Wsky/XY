@@ -6,7 +6,7 @@ from loguru import logger
 from plugin_interface import PluginInterface
 
 
-class News(PluginInterface):
+class news(PluginInterface):
     def __init__(self):
         config_path = 'plugins/news.yml'
         with open(config_path, 'r', encoding='utf-8') as f:
@@ -15,13 +15,13 @@ class News(PluginInterface):
         self.api_url = config['api_url']
         self.response_format = config['response_format']
 
-        main_config_path = 'main_config.yml'
-        with open(main_config_path, 'r', encoding='utf-8') as f:
+         main_config_path = 'main_config.yml'
+        with open(main_config_path, 'r', encoding='utf-8') as f:  # 读取设置
             main_config = yaml.safe_load(f.read())
 
-        self.ip = main_config['ip']
-        self.port = main_config['port']
-        self.bot = pywxdll.Pywxdll(self.ip, self.port)
+        self.ip = main_config['ip']  # 机器人ip
+        self.port = main_config['port']  # 机器人端口
+        self.bot = pywxdll.Pywxdll(self.ip, self.port)  # 机器人api
 
     async def run(self, recv):
         try:
@@ -52,10 +52,12 @@ class News(PluginInterface):
                     else:
                         logger.error('Request failed with status code: {status_code}', status_code=response.status)
 
-            out_message = '处理返回的数据，生成消息内容'
+            out_message = '-----新闻极速60S-----'
             logger.info('[发送信息]{out_message}| [发送到] {wxid}', out_message=out_message, wxid=recv['wxid'])
             self.bot.send_txt_msg(recv['wxid'], out_message)
 
+            
+        
         except Exception as error:
             out_message = '出现错误！⚠️{error}'.format(error=error)
             logger.info('[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
