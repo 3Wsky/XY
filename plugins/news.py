@@ -14,7 +14,6 @@ class News(PluginInterface):
 
         self.api_url = config['api_url']
         self.response_format = config['response_format']
-        self.api_key = config['api_key']
 
         main_config_path = 'main_config.yml'
         with open(main_config_path, 'r', encoding='utf-8') as f:
