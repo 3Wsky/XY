@@ -30,7 +30,7 @@ class bot_status(PluginInterface):
                 112, 100, 71, 104, 49, 89, 105, 53, 106, 98, 50, 48, 118, 83, 71, 86, 117, 99, 110, 108, 89, 97, 87, 70,
                 118, 87, 87, 70, 117, 90, 121, 57, 89, 87, 85, 74, 118, 100, 65, 61, 61], ''  # 嘿嘿
         for i in b: a += chr(i)
-        out_message = "-----XYBot-----\n{status_message}\nBot version: {bot_version}\n{h}".format(
+        out_message = "-----AIBot-----\n{status_message}\nBot version: {bot_version}\n{h}".format(
             status_message=self.status_message, bot_version=self.bot_version,
             h=base64.b64decode(a).decode("utf-8"))
         logger.info(
