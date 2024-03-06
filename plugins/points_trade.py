@@ -44,13 +44,13 @@ class points_trade(PluginInterface):
                 self.log_and_send_error_message(roomid, trader_wxid, trader_nick, error_message)  # 记录日志和发送错误信息
         else:
             self.bot.send_txt_msg(recv['wxid'],
-                                  '-----XYBot-----\n转帐失败❌\n指令格式错误/在私聊转帐积分(仅可在群聊中转帐积分)❌')  # 发送错误信息
+                                  '-----AIBot-----\n转帐失败❌\n指令格式错误/在私聊转帐积分(仅可在群聊中转帐积分)❌')  # 发送错误信息
 
     def get_error_message(self, target_wxid, points_num):  # 获取错误信息
         if not target_wxid:
-            return '\n-----XYBot-----\n转帐失败❌\n转帐人不存在(仅可转账群内成员)或⚠️转帐目标昵称重复⚠️'
+            return '\n-----AIBot-----\n转帐失败❌\n转帐人不存在(仅可转账群内成员)或⚠️转帐目标昵称重复⚠️'
         elif not self.min_points <= points_num <= self.max_points:
-            return '\n-----XYBot-----\n转帐失败❌\n转帐积分无效(最大{max_points} 最小{min_points})'.format(
+            return '\n-----AIBot-----\n转帐失败❌\n转帐积分无效(最大{max_points} 最小{min_points})'.format(
                 max_points=self.max_points, min_points=self.min_points)
 
     def log_and_send_success_message(self, roomid, trader_wxid, trader_nick, target_wxid, target_nick,
@@ -60,7 +60,7 @@ class points_trade(PluginInterface):
                 trader_wxid=trader_wxid, trader_nick=trader_nick, target_wxid=target_wxid, target_nick=target_nick,
                 roomid=roomid, points_num=points_num))
         trader_points, target_points = self.db.get_points(trader_wxid), self.db.get_points(target_wxid)
-        out_message = '\n-----XYBot-----\n转帐成功✅! 你现在有{trader_points}点积分 {target_nick}现在有{target_points}点积分'.format(
+        out_message = '\n-----AIBot-----\n转帐成功✅! 你现在有{trader_points}点积分 {target_nick}现在有{target_points}点积分'.format(
             trader_points=trader_points, target_nick=target_nick, target_points=target_points)
         logger.info('[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=roomid))
         self.bot.send_at_msg(roomid, trader_wxid, trader_nick, out_message)
