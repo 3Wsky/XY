@@ -4,7 +4,7 @@ plugin_name: "gpt4"
 #ChatGPT的API网址
 openai_api_base: "https://api.fastapi.ai"
 #ChatGPT API的Key
-openai_api_key: "sk-FastAPI1YzE0kXf0zNb0ldX1nBLDm1Bh0SoSK0G0PzR1tNxW"
+openai_api_key: "sk-FastAPI1YzE0kXf0zNb0ldX1n1tNxW"
 
 gpt_point_price: 10
 
