@@ -2,9 +2,9 @@ keywords: [ "gpt","GPT","ChatGPT","chatgpt","CHATGPT","gpt3","GPT3","ChatGPT3","
 plugin_name: "gpt"
 
 #ChatGPT的API网址
-openai_api_base: ""
+openai_api_base: "https://api.fastapi.ai"
 #ChatGPT API的Key
-openai_api_key: ""
+openai_api_key: "sk-FastAPI1YzE0kXf0zNb0ldX1nBLDm1Bh0SoSK0G0PzR1tNxW"
 
 gpt_point_price: 3
 
