@@ -54,16 +54,16 @@ class gpt4(PluginInterface):
 
         if not (self.db.get_points(user_wxid) >= self.gpt_point_price or self.db.get_whitelist(
                 user_wxid) == 1 or user_wxid in self.admins):  # 积分足够或在白名单或在管理员
-            error_message = '-----AiBot-----\n积分不足,需要{require_points}点⚠️'.format(
+            error_message = '-----AIBot-----\n积分不足,需要{require_points}点⚠️'.format(
                 require_points=self.gpt_point_price)
         elif len(recv['content']) < 2:  # 指令格式正确
-            error_message = '-----AiBot-----\n参数错误!❌'
+            error_message = '-----AIBot-----\n参数错误!❌'
         elif not self.senstitive_word_check(message):  # 敏感词检查
-            error_message = '-----AiBot-----\n内容包含敏感词!⚠️'
+            error_message = '-----AIBot-----\n内容包含敏感词!⚠️'
 
         if not error_message:  # 如果(积分足够或在白名单或在管理员)与指令格式正确与敏感词检查通过
 
-            out_message = '-----AiBot-----\n已收到指令，处理中，请勿重复发送指令！👍'  # 发送已收到信息，防止用户反复发送命令
+            out_message = '-----AIBot-----\n已收到指令，处理中，请勿重复发送指令！👍'  # 发送已收到信息，防止用户反复发送命令
             logger.info(
                 '[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
             self.send_friend_or_group(is_chatgroup, recv, user_wxid, nickname, out_message)  # 判断是群还是私聊
@@ -73,13 +73,13 @@ class gpt4(PluginInterface):
                 chatgpt_answer = await self.chatgpt(message)
 
                 if chatgpt_answer[0]:
-                    out_message = "-----XYBot-----\n因为你在白名单内，所以没扣除积分！👍\nChatGPT回答：\n{res}\n\n⚙️ChatGPT版本：{gpt_version}".format(
+                    out_message = "-----AIBot-----\n因为你在白名单内，所以没扣除积分！👍\nChatGPT回答：\n{res}\n\n⚙️ChatGPT版本：{gpt_version}".format(
                         res=chatgpt_answer[1], gpt_version=self.gpt_version)  # 创建信息并从gpt api获取回答
                     logger.info(
                         '[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
                     self.send_friend_or_group(is_chatgroup, recv, user_wxid, nickname, out_message)  # 判断是群还是私聊
                 else:
-                    out_message = '-----AiBot-----\n出现错误！⚠️{error}'.format(error=chatgpt_answer)
+                    out_message = '-----AIBot-----\n出现错误！⚠️{error}'.format(error=chatgpt_answer)
                     logger.info(
                         '[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
                     self.send_friend_or_group(is_chatgroup, recv, user_wxid, nickname, out_message)  # 判断是群还是私聊
@@ -90,7 +90,7 @@ class gpt4(PluginInterface):
                 chatgpt_answer = await self.chatgpt(message)  # 从chatgpt api 获取回答
 
                 if chatgpt_answer[0]:
-                    out_message = "-----AiBot-----\n已扣除{gpt_price}点积分，还剩{points_left}点积分👍\nChatGPT回答：\n{res}\n\n⚙️ChatGPT版本：{gpt_version}".format(
+                    out_message = "-----AIBot-----\n已扣除{gpt_price}点积分，还剩{points_left}点积分👍\nChatGPT回答：\n{res}\n\n⚙️ChatGPT版本：{gpt_version}".format(
                         gpt_price=self.gpt_point_price, points_left=self.db.get_points(user_wxid),  # 创建信息
                         res=chatgpt_answer[1], gpt_version=self.gpt_version)
                     logger.info(
@@ -98,7 +98,7 @@ class gpt4(PluginInterface):
                     self.send_friend_or_group(is_chatgroup, recv, user_wxid, nickname, out_message)
                 else:
                     self.db.add_points(user_wxid, self.gpt_point_price)
-                    out_message = '-----AiBot-----\n出现错误，已补回积分！⚠️{error}'.format(error=chatgpt_answer)
+                    out_message = '-----AIBot-----\n出现错误，已补回积分！⚠️{error}'.format(error=chatgpt_answer)
                     logger.info(
                         '[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
                     self.send_friend_or_group(is_chatgroup, recv, user_wxid, nickname, out_message)  # 判断是群还是私聊
