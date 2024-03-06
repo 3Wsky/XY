@@ -50,24 +50,24 @@ class lucky_draw(PluginInterface):
             draw_count = 1  # 抽奖次数，单抽设为1
 
             if draw_name not in self.lucky_draw_probability.keys():  # 判断抽奖是否有效，积分是否够
-                error = '-----XYBot-----\n❌抽奖种类未知或者无效'
+                error = '-----AIBot-----\n❌抽奖种类未知或者无效'
             elif draw_name in self.lucky_draw_probability.keys() and target_points < \
                     self.lucky_draw_probability[draw_name][
                         'cost']:
-                error = '-----XYBot-----\n❌积分不足！'
+                error = '-----AIBot-----\n❌积分不足！'
 
         elif len(command) == 3 and command[2].isdigit():
             draw_name = command[1]
             draw_count = int(command[2])
 
             if draw_name not in self.lucky_draw_probability.keys():  # 判断抽奖是否有效，积分是否够，连抽要乘次数
-                error = '-----XYBot-----\n❌抽奖种类未知或者无效'
+                error = '-----AIBot-----\n❌抽奖种类未知或者无效'
             elif draw_name in self.lucky_draw_probability.keys() and target_points < \
                     self.lucky_draw_probability[draw_name][
                         'cost'] * draw_count:
-                error = '-----XYBot-----\n❌积分不足！'
+                error = '-----AIBot-----\n❌积分不足！'
         else:  # 指令格式错误
-            error = '-----XYBot-----\n❌命令格式错误！请查看菜单获取正确命令格式'
+            error = '-----AIBot-----\n❌命令格式错误！请查看菜单获取正确命令格式'
 
         if not error:
 
@@ -142,7 +142,7 @@ class lucky_draw(PluginInterface):
             if len(win_name) > name_max_len:
                 name_max_len = len(win_name)
 
-        begin_message = f"----XYBot抽奖----\n🥳恭喜你在 {draw_count}次 {draw_name}抽奖 中抽到了：\n\n"
+        begin_message = f"----AIBot抽奖----\n🥳恭喜你在 {draw_count}次 {draw_name}抽奖 中抽到了：\n\n"
         lines = []
         for _ in range(name_max_len + 2):
             lines.append('')
