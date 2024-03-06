@@ -38,6 +38,6 @@ class random_picture_link(PluginInterface):
             self.bot.send_txt_msg(recv['wxid'], out_message)  # 发送
 
         except Exception as error:
-            out_message = '-----XYBot-----\n出现错误❌！{error}'.format(error=error)
+            out_message = '-----AIBot-----\n出现错误❌！{error}'.format(error=error)
             logger.info('[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
             self.bot.send_txt_msg(recv['wxid'], out_message)
