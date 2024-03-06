@@ -63,7 +63,7 @@ class gpt(PluginInterface):
 
         if not error_message:  # 如果(积分足够或在白名单或在管理员)与指令格式正确与敏感词检查通过
 
-            out_message = '-----XYBot-----\n已收到指令，处理中，请勿重复发送指令！👍'  # 发送已收到信息，防止用户反复发送命令
+            out_message = '-----AIBot-----\n已收到指令，处理中，请勿重复发送指令！👍'  # 发送已收到信息，防止用户反复发送命令
             logger.info(
                 '[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
             self.send_friend_or_group(is_chatgroup, recv, user_wxid, nickname, out_message)  # 判断是群还是私聊
@@ -73,13 +73,13 @@ class gpt(PluginInterface):
                 chatgpt_answer = await self.chatgpt(message)
 
                 if chatgpt_answer[0]:
-                    out_message = "-----XYBot-----\n因为你在白名单内，所以没扣除积分！👍\nChatGPT回答：\n{res}\n\n⚙️ChatGPT版本：{gpt_version}".format(
+                    out_message = "-----AIBot-----\n因为你在白名单内，所以没扣除积分！👍\nChatGPT回答：\n{res}\n\n⚙️ChatGPT版本：{gpt_version}".format(
                         res=chatgpt_answer[1], gpt_version=self.gpt_version)  # 创建信息并从gpt api获取回答
                     logger.info(
                         '[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
                     self.send_friend_or_group(is_chatgroup, recv, user_wxid, nickname, out_message)  # 判断是群还是私聊
                 else:
-                    out_message = '-----XYBot-----\n出现错误！⚠️{error}'.format(error=chatgpt_answer)
+                    out_message = '-----AIBot-----\n出现错误！⚠️{error}'.format(error=chatgpt_answer)
                     logger.info(
                         '[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
                     self.send_friend_or_group(is_chatgroup, recv, user_wxid, nickname, out_message)  # 判断是群还是私聊
