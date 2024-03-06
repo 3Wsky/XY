@@ -32,7 +32,7 @@ class news(PluginInterface):
                     res.append(await req.json())
             await conn_ssl.close()
 
-            out_message = '-----XYBot新闻-----\n'
+            out_message = '-----AIBot新闻-----\n'
             for j in res:  # 从新闻列表for
                 for i in range(self.news_number):  # 从设置中获取单类新闻个数
                     # 获取新闻的信息
