@@ -48,7 +48,7 @@ class red_packet(PluginInterface):
         elif len(recv['content']) == 2:  # 判断是否为抢红包指令
             self.grab_red_packet(recv)
         else:  # 指令格式错误
-            self.send_friend_or_group(recv, '-----XYBot-----\n❌命令格式错误！请查看菜单获取正确命令格式')
+            self.send_friend_or_group(recv, '-----AIBot-----\n❌命令格式错误！请查看菜单获取正确命令格式')
 
     def send_red_packet(self, recv):
         # /红包 100 10
@@ -61,19 +61,19 @@ class red_packet(PluginInterface):
         # 判断是否有错误
         error = ''
         if not recv['id1']:
-            error = '-----XYBot-----\n❌红包只能在群里发！'
+            error = '-----AIBot-----\n❌红包只能在群里发！'
         elif not recv['content'][1].isdigit() or not recv['content'][2].isdigit():
-            error = '-----XYBot-----\n❌指令格式错误！请查看菜单！'
+            error = '-----AIBot-----\n❌指令格式错误！请查看菜单！'
         elif int(recv['content'][1]) > self.max_point or int(recv['content'][1]) < self.min_point:
-            error = '-----XYBot-----\n⚠️积分无效！最大{max_points}，最小{min_points}！'.format(max_points=self.max_point,
+            error = '-----AIBot-----\n⚠️积分无效！最大{max_points}，最小{min_points}！'.format(max_points=self.max_point,
                                                                                             min_points=self.min_point)
         elif int(recv['content'][2]) >= self.max_packet:
-            error = '-----XYBot-----\n⚠️红包数量无效！最大{max_packet}！'.format(max_packet=self.max_packet)
+            error = '-----AIBot-----\n⚠️红包数量无效！最大{max_packet}！'.format(max_packet=self.max_packet)
 
         # 判断是否有足够积分
         if not error:
             if self.db.get_points(red_packet_sender) < int(recv['content'][1]):
-                error = '-----XYBot-----\n❌积分不足！'
+                error = '-----AIBot-----\n❌积分不足！'
 
         if not error:
             red_packet_points = int(recv['content'][1])  # 红包积分
@@ -94,7 +94,7 @@ class red_packet(PluginInterface):
             self.db.add_points(red_packet_sender, red_packet_points * -1)  # 扣除积分
 
             # 组建信息
-            out_message = '-----XYBot-----\n{red_packet_sender_nick} 发送了一个红包！\n\n🧧红包金额：{red_packet_points}点积分\n🧧红包数量：{red_packet_amount}个\n\n🧧红包口令请见下图！\n\n快输入指令来抢红包！/抢红包 (口令)'.format(
+            out_message = '-----AIBot-----\n{red_packet_sender_nick} 发送了一个红包！\n\n🧧红包金额：{red_packet_points}点积分\n🧧红包数量：{red_packet_amount}个\n\n🧧红包口令请见下图！\n\n快输入指令来抢红包！/抢红包 (口令)'.format(
                 red_packet_sender_nick=red_packet_sender_nick, red_packet_points=red_packet_points,
                 red_packet_amount=red_packet_amount)
 
@@ -120,15 +120,15 @@ class red_packet(PluginInterface):
         # 判断是否有错误
         error = ''
         if req_captcha not in self.red_packets.keys():
-            error = '-----XYBot-----\n❌口令错误或无效！'
+            error = '-----AIBot-----\n❌口令错误或无效！'
         elif not self.red_packets[req_captcha]['list']:
-            error = '-----XYBot-----\n⚠️红包已被抢完！'
+            error = '-----AIBot-----\n⚠️红包已被抢完！'
         elif not recv['id1']:
-            error = '-----XYBot-----\n❌红包只能在群里抢！'
+            error = '-----AIBot-----\n❌红包只能在群里抢！'
         elif red_packet_grabber in self.red_packets[req_captcha]['grabbed']:
-            error = '-----XYBot-----\n⚠️你已经抢过这个红包了！'
+            error = '-----AIBot-----\n⚠️你已经抢过这个红包了！'
         elif self.red_packets[req_captcha]['sender'] == red_packet_grabber:
-            error = '-----XYBot-----\n❌不能抢自己的红包！'
+            error = '-----AIBot-----\n❌不能抢自己的红包！'
 
         if not error:
             try:  # 抢红包
@@ -140,7 +140,7 @@ class red_packet(PluginInterface):
                 self.db.add_points(red_packet_grabber, grabbed_points)  # 增加积分
 
                 # 组建信息
-                out_message = '-----XYBot-----\n🧧恭喜 {red_packet_grabber_nick} 抢到了 {grabbed_points} 点积分！'.format(
+                out_message = '-----AIBot-----\n🧧恭喜 {red_packet_grabber_nick} 抢到了 {grabbed_points} 点积分！'.format(
                     red_packet_grabber_nick=red_packet_grabber_nick, grabbed_points=grabbed_points)
                 self.send_friend_or_group(recv, out_message)
 
@@ -149,7 +149,7 @@ class red_packet(PluginInterface):
                     self.red_packets.pop(req_captcha)
 
             except IndexError:
-                error = '-----XYBot-----\n❌红包已被抢完！'
+                error = '-----AIBot-----\n❌红包已被抢完！'
                 self.send_friend_or_group(recv, error)
                 return
 
@@ -200,7 +200,7 @@ class red_packet(PluginInterface):
                 logger.info('[红包]有红包超时，已归还积分！')  # 记录日志
 
                 # 组建信息并发送
-                out_message = f'-----XYBot-----\n🧧发现有红包 {key} 超时！已归还剩余 {red_packet_points_left_sum} 积分给 {red_packet_sender_nick}'
+                out_message = f'-----AIBot-----\n🧧发现有红包 {key} 超时！已归还剩余 {red_packet_points_left_sum} 积分给 {red_packet_sender_nick}'
                 self.bot.send_txt_msg(red_packet_chatroom, out_message)
                 logger.info('[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message,
                                                                               wxid=red_packet_chatroom))
