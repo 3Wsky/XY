@@ -38,7 +38,7 @@ class weather(PluginInterface):
                     res = await req.json()
 
                 if 'city' in res.keys():
-                    out_message = '-----XYBot-----\n城市🌆：{city}\n天气☁️：{weather}\n实时温度🌡️：{temp}°\n白天温度🌡：{temp_day}°\n夜晚温度🌡：{temp_night}°\n空气质量🌬：{air_quality}\n空气湿度💦：{air_humidity}\n风向🌬：{wind_speed}{wind_dir}\n更新时间⌚：{update_time}'.format(
+                    out_message = '-----AIBot-----\n城市🌆：{city}\n天气☁️：{weather}\n实时温度🌡️：{temp}°\n白天温度🌡：{temp_day}°\n夜晚温度🌡：{temp_night}°\n空气质量🌬：{air_quality}\n空气湿度💦：{air_humidity}\n风向🌬：{wind_speed}{wind_dir}\n更新时间⌚：{update_time}'.format(
                         city=res['city'], weather=res['wea'], temp=res['tem'], temp_day=res['tem_day'],
                         temp_night=res['tem_night'], air_quality=res['air'], air_humidity=res['humidity'],
                         wind_dir=res['win'],
@@ -47,7 +47,7 @@ class weather(PluginInterface):
                         '[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
                     self.bot.send_txt_msg(recv['wxid'], out_message)
                 else:
-                    out_message = '-----XYBot-----\n未知的城市：{city}❌'.format(city=city)
+                    out_message = '-----AIBot-----\n未知的城市：{city}❌'.format(city=city)
                     logger.info(
                         '[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
                     self.bot.send_txt_msg(recv['wxid'], out_message)
@@ -59,17 +59,17 @@ class weather(PluginInterface):
                         '[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
                     self.bot.send_txt_msg(recv['wxid'], out_message)
                 else:
-                    out_message = '-----XYBot-----\n出现错误！⚠️{error}'.format(error=error)
+                    out_message = '-----AIBot-----\n出现错误！⚠️{error}'.format(error=error)
                     logger.info(
                         '[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
                     self.bot.send_txt_msg(recv['wxid'], out_message)
 
             except Exception as error:  # 报错处理
-                out_message = '-----XYBot-----\n出现错误！⚠️{error}'.format(error=error)
+                out_message = '-----AIBot-----\n出现错误！⚠️{error}'.format(error=error)
                 logger.info(
                     '[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
                 self.bot.send_txt_msg(recv['wxid'], out_message)
         else:
-            out_message = '-----XYBot-----\n参数错误！⚠️'
+            out_message = '-----AIBot-----\n参数错误！⚠️'
             logger.info('[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
             self.bot.send_txt_msg(recv['wxid'], out_message)
