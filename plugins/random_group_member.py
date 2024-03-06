@@ -29,7 +29,7 @@ class random_group_member(PluginInterface):
             wxid_list = choices(member_list, k=self.member_count)  # 随机选取群成员
 
             # 组建信息
-            out_message = '\n-----XYBot-----\n随机群成员❓：\n'
+            out_message = '\n-----AIBot-----\n随机群成员❓：\n'
             for wxid in wxid_list:
                 out_message += self.bot.get_chatroom_nickname(recv['wxid'], wxid)['nick'] + '\n'
             nick = self.bot.get_chatroom_nickname(recv['wxid'], recv['id1'])['nick']
@@ -39,7 +39,7 @@ class random_group_member(PluginInterface):
                 '[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
             self.bot.send_at_msg(recv['wxid'], recv['id1'], nick, out_message)
         else:  # 私聊
-            out_message = '-----XYBot-----\n此功能仅可在群内使用！❌'
+            out_message = '-----AIBot-----\n此功能仅可在群内使用！❌'
             logger.info(
                 '[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
             self.bot.send_txt_msg(recv['wxid'], out_message)
