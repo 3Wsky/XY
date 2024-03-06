@@ -41,7 +41,7 @@ class admin_points(PluginInterface):
                 self.send_result(recv, change_wxid)
 
         else:  # 操作人不在白名单内
-            out_message = '-----XYBot-----\n❌你配用这个指令吗？'
+            out_message = '-----AIBot-----\n❌你配用这个指令吗？'
             logger.info('[发送信息]{out_message}| [发送到] {wxid}'.format(out_message=out_message, wxid=recv['wxid']))
             self.bot.send_txt_msg(recv['wxid'], out_message)
 
